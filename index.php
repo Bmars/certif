@@ -25,7 +25,7 @@ if(isset($_POST['submit'])) {
     while($email_verification = $req->fetch()){
        if($email_verification['numberEmail'] != 0){
            // header('location: ../?error=1&email=1')
-           var_dump(email);
+           var_dump('email');
         }
     }
 
