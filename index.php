@@ -22,11 +22,12 @@ if(isset($_POST['submit'])) {
     $req = $db->prepare("SELECT count(*) as numberEmail FROM login WHERE email = ?");
     $req->execute(array($email));
     
-    while($email_verification = req->fetch()){
+    while($email_verification = $req->fetch()){
        if($email_verification['numberEmail'] != 0){
            // header('location: ../?error=1&email=1')
-       // }
-    //}
+           var_dump(email);
+        }
+    }
 
 }
 
