@@ -33,6 +33,7 @@ if(isset($_POST['submit'])) {
     $req->execute(array($pseudo, $email, $password));
 
     header('location:/?success=1');
+    exit();
 }
 
 
@@ -50,6 +51,22 @@ if(isset($_POST['submit'])) {
 <body>
     <h1>inscription</h1>
     <p>Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
+    <?php
+		 
+			if(isset($_GET['error'])){
+		 
+				if(isset($_GET['pass'])){
+					echo '<p id="error">Les mots de passe ne correspondent pas.</p>';
+				}
+				else if(isset($_GET['email'])){
+					echo '<p id="error">Cette adresse email est déjà utilisée.</p>';
+				}
+			}
+			else if(isset($_GET['success'])){
+				echo '<p id="success">Inscription prise correctement en compte.</p>';
+			}
+		 
+		?>
     <form method="post" action="index.php">   
     <input type="text" name="pseudo" placeholder="pseudo" required></br>
     <input type="email" name="email" placeholder="email"required></br>
