@@ -28,7 +28,11 @@ if(isset($_POST['submit'])) {
            var_dump('email');
         }
     }
+// envoi de la requete
+    $req =$db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
+    $req->execute(array($pseudo, $email, $password));
 
+    header('location:/?success=1');
 }
 
 
@@ -47,10 +51,10 @@ if(isset($_POST['submit'])) {
     <h1>inscription</h1>
     <p>Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
     <form method="post" action="index.php">   
-    <input type="text" name="pseudo" placeholder="pseudo"></br>
-    <input type="email" name="email" placeholder="email"></br>
-    <input type="password" name="password" placeholder="mot de passe"></br>
-    <input type="password" name="password_confirm" placeholder="confirme le mot de passe"></br>
+    <input type="text" name="pseudo" placeholder="pseudo" required></br>
+    <input type="email" name="email" placeholder="email"required></br>
+    <input type="password" name="password" placeholder="mot de passe"required></br>
+    <input type="password" name="password_confirm" placeholder="confirme le mot de passe"required></br>
     <button name="submit">inscription</button>
 
 
