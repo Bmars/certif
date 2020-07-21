@@ -37,7 +37,11 @@ if(isset($_POST['submit'])) {
     }
 // envoi de la requete
     $req =$db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
-    $req->execute(array($pseudo, $email, $hash));
+    $req->execute([
+        $pseudo,
+        $email,
+        $hash
+    ]);
 
     
 }
