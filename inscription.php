@@ -1,20 +1,26 @@
 <?php
+session_start();
 
 require ("src/pageconnection.php");
 
 if(isset($_POST['submit'])) {
-    if(!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && 
-    !empty($_POST['password_confirm'])) {
+    
     
         //variable
         $pseudo = $_POST['pseudo'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $pass_confirm = $_POST['password_confirm'];
+
+        if(!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && 
+    !empty($_POST['password_confirm'])) {
+        
     
         //test si le mdp est different de confirm le mdp
         if($password != $pass_confirm) {
             echo "mot de passe different";
+        } else{
+            header("refresh:3;url=connection.php?success=1");
         }
     }
     
@@ -32,8 +38,7 @@ if(isset($_POST['submit'])) {
     $req =$db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
     $req->execute(array($pseudo, $email, $password));
 
-    header('location:/?success=1');
-    exit();
+    
 }
 
 
@@ -50,6 +55,8 @@ if(isset($_POST['submit'])) {
 </head>
 <body>
     <h1>inscription</h1>
+    
+    
     <p>Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
     <?php
 		 
@@ -62,12 +69,12 @@ if(isset($_POST['submit'])) {
 					echo '<p id="error">Cette adresse email est déjà utilisée.</p>';
 				}
 			}
-			else if(isset($_GET['success'])){
-				echo '<p id="success">Inscription prise correctement en compte.</p>';
-			}
+		//	else if(isset($_GET['success'])){
+		//		echo '<p id="success">Inscription prise correctement en compte.</p>';
+		//	}
 		 
 		?>
-    <form method="post" action="index.php">   
+    <form method="post" action="inscription.php">   
     <input type="text" name="pseudo" placeholder="pseudo" required></br>
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="mot de passe"required></br>
