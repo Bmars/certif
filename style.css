@@ -1,0 +1,19 @@
+
+header {
+	text-align: center;
+	background-color: #2C3E50;
+	padding: 10px;
+}
+
+header h1 {
+	color: #FDE3A7;
+	margin: 0;
+}
+
+#form {
+	text-align: center;
+}
+
+#info {
+	text-align: center;
+}
