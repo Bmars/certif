@@ -13,11 +13,12 @@ if(isset($_POST['submit'])) {
         $pass_confirm = $_POST['password_confirm'];
 
         if(!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && 
-    !empty($_POST['password_confirm'])) {
+           !empty($_POST['password_confirm'])) {
         
     
         //test si le mdp est different de confirm le mdp
         if($password != $pass_confirm) {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
             echo "mot de passe different";
         } else{
             header("refresh:3;url=connection.php?success=1");
@@ -31,12 +32,12 @@ if(isset($_POST['submit'])) {
     while($email_verification = $req->fetch()){
        if($email_verification['numberEmail'] != 0){
            // header('location: ../?error=1&email=1')
-           var_dump('email');
+          // var_dump('email');
         }
     }
 // envoi de la requete
     $req =$db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
-    $req->execute(array($pseudo, $email, $password));
+    $req->execute(array($pseudo, $email, $hash));
 
     
 }
@@ -54,7 +55,7 @@ if(isset($_POST['submit'])) {
     
 </head>
 <body>
-    <h1>inscription</h1>
+    <header><h1>inscription</h1></header>
     
     
     <p>Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
