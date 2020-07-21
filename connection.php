@@ -2,41 +2,48 @@
 
 require('src/pageconnection.php');
 
-if(isset($_GET['error'])){
-		 
-    if(isset($_GET['pass'])){
-        echo '<p id="error">Les mots de passe ne correspondent pas.</p>';
-    }
-    else if(isset($_GET['email'])){
-        echo '<p id="error">Cette adresse email est déjà utilisée.</p>';
-    }
-}
-else if(isset($_GET['success'])){
+if(isset($_GET['success'])){
     echo '<p id="success">Inscription prise correctement en compte.</p>';
 }
 
-
-
-if(!empty($_POST['email']) && !empty($_POST['password'])){
-
-    //variables
-    $email =$_POST['email'];
-    $password =$_POST['password'];
-
-    //verification du mdp avec email
-    $req = $db->prepare('SELECT * FROM login WHERE email = ?');
-    $req->execute(array($email));
-    while ($login = $req->fetch()){
-
-        if($password == $login['password']){
-            header('location:../connection.php?success=1');
-
-        }
+if (isset($_POST['submit'])) {
+ 
+    $email = htmlspecialchars($_POST['email']);
+    $password = $_POST['password'];
+    
         
-    }
+            
+    if ((!empty($email)) && (!empty($password))) {
 
-    header('location:../connection.php?error=1');
-}
+            
+
+        $database = getPDO();
+        $requestUser = $database->prepare("SELECT * FROM login WHERE email = ?");
+        $requestUser->execute([$email]);
+        $userCount = $requestUser->rowCount();
+        if ($userCount == 1) {
+                
+            $userInfo = $requestUser->fetch();
+            if ($userInfo && password_verify($password, $userInfo['user_password']))
+                    {
+                    $_SESSION['userID'] = $userInfo['id'];
+                    $_SESSION['userPseudo'] = $userInfo['pseudo'];
+                    $_SESSION['userEmail'] = $userInfo['email'];
+                    $_SESSION['userPassword'] = $userInfo['password'];
+                    $_SESSION['userRegisterDate'] = $userInfo['registerdate'];
+                    $succesMessage = 'Bravo, vous êtes maintenant connecté !';
+                    header('refresh:3;url=index.php');
+            } else {
+                $errorMessage = 'Mauvais mot de passe';
+            }        
+        } else {
+            $errorMessage = 'Email incorrect!';
+        }
+    } else {
+        $errorMessage = 'Veuillez remplir tous les champs..';
+    }
+        
+} 
 
 
 
