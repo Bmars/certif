@@ -56,13 +56,12 @@ if(isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>certif</title>
-    
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <header><h1>inscription</h1></header>
     
-    
-    <p>Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
+    <p id="info">Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
     <?php
 		 
 			if(isset($_GET['error'])){
@@ -78,14 +77,15 @@ if(isset($_POST['submit'])) {
 		//		echo '<p id="success">Inscription prise correctement en compte.</p>';
 		//	}
 		 
-		?>
+        ?>
+        <div id="form">
     <form method="post" action="inscription.php">   
     <input type="text" name="pseudo" placeholder="pseudo" required></br>
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="mot de passe"required></br>
     <input type="password" name="password_confirm" placeholder="confirme le mot de passe"required></br>
     <button name="submit">inscription</button>
-
+        </div>
 
 
 
