@@ -7,8 +7,8 @@ if(isset($_POST['submit'])) {
     
     
         //on récupère les infos du form
-        $pseudo = $_POST['pseudo'];
-        $email = $_POST['email'];
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $email = htmlspecialchars($_POST['email']);
         $password = $_POST['password'];
         $pass_confirm = $_POST['password_confirm'];
 
@@ -20,7 +20,10 @@ if(isset($_POST['submit'])) {
         //test si le mdp est different de confirm le mdp
         if($password != $pass_confirm) {
             echo "mot de passe different";
-        } else{
+                
+        }
+
+        else{
             // si les mdp sont ok, on hash le mdp
             $hash = password_hash($password, PASSWORD_DEFAULT);
         }
