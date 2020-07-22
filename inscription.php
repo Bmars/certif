@@ -6,22 +6,23 @@ require ("src/pageconnection.php");
 if(isset($_POST['submit'])) {
     
     
-        //variable
+        //on récupère les infos du form
         $pseudo = $_POST['pseudo'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $pass_confirm = $_POST['password_confirm'];
 
+        // on vérifie que les champs ne sont pas vides
         if(!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && 
            !empty($_POST['password_confirm'])) {
         
     
         //test si le mdp est different de confirm le mdp
         if($password != $pass_confirm) {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
             echo "mot de passe different";
         } else{
-            header("refresh:3;url=connection.php?success=1");
+            // si les mdp sont ok, on hash le mdp
+            $hash = password_hash($password, PASSWORD_DEFAULT);
         }
     }
     
@@ -30,19 +31,20 @@ if(isset($_POST['submit'])) {
     $req->execute(array($email));
     
     while($email_verification = $req->fetch()){
-       if($email_verification['numberEmail'] != 0){
-           // header('location: ../?error=1&email=1')
-          // var_dump('email');
-        }
+        if($email_verification['numberEmail'] != 0){
+            // header('location: ../?error=1&email=1')
+            // var_dump('email');
+        }   
     }
-// envoi de la requete
+    // envoi de la requete
     $req =$db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
     $req->execute([
         $pseudo,
         $email,
         $hash
-    ]);
-
+        ]);
+        
+        header("refresh:3;url=connection.php?success=1");
     
 }
 

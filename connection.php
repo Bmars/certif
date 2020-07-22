@@ -32,14 +32,21 @@ if (isset($_POST['submit'])) {
                     $_SESSION['userPassword'] = $userInfo['password'];
                     $_SESSION['userRegisterDate'] = $userInfo['registerdate'];
                     $succesMessage = 'Bravo, vous êtes maintenant connecté !';
+                    die("password match");
                     header('refresh:3;url=index.php');
             } else {
+                die("password don't match");
+
                 $errorMessage = 'Mauvais mot de passe';
             }        
         } else {
+            die("no user");
+
             $errorMessage = 'Email incorrect!';
         }
     } else {
+        die("field error");
+
         $errorMessage = 'Veuillez remplir tous les champs..';
     }
         
@@ -55,15 +62,15 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>connection</title>
+    <title>Connection</title>
 </head>
 <body>
-    <h1>connection<h1>
+    <h1>Connection<h1>
 <form method="post" action="connection.php">   
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="password"required></br>
     <p><label><input type="checkbox" name="connect">Connexion automatique</label></p>
-    <button>connection</button>
+    <button name="submit">Connection</button>
     
 </body>
 </html>
