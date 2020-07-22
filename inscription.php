@@ -57,12 +57,14 @@ if(isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>certif</title>
+    <title>Certif</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <header><h1>inscription</h1></header>
-    
+<header>
+<h1>Inscription</h1>
+</header>   
     <p id="info">Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
     <?php
 		 
@@ -86,11 +88,12 @@ if(isset($_POST['submit'])) {
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="mot de passe"required></br>
     <input type="password" name="password_confirm" placeholder="confirme le mot de passe"required></br>
-    <button name="submit">inscription</button>
+    <button type="button" class="btn btn-dark" name="submit">Inscription</button>
         </div>
 
 
 
     </form>
+    
 </body>
 </html>
