@@ -17,14 +17,14 @@ if (isset($_POST['submit'])) {
 
             
 
-        $database = getPDO();
-        $requestUser = $database->prepare("SELECT * FROM login WHERE email = ?");
+        // $db = getPDO();
+        $requestUser = $db->prepare("SELECT * FROM login WHERE email = ?");
         $requestUser->execute([$email]);
         $userCount = $requestUser->rowCount();
         if ($userCount == 1) {
                 
             $userInfo = $requestUser->fetch();
-            if ($userInfo && password_verify($password, $userInfo['user_password']))
+            if ($userInfo && password_verify($password, $userInfo['password']))
                     {
                     $_SESSION['userID'] = $userInfo['id'];
                     $_SESSION['userPseudo'] = $userInfo['pseudo'];
@@ -32,21 +32,14 @@ if (isset($_POST['submit'])) {
                     $_SESSION['userPassword'] = $userInfo['password'];
                     $_SESSION['userRegisterDate'] = $userInfo['registerdate'];
                     $succesMessage = 'Bravo, vous êtes maintenant connecté !';
-                    die("password match");
                     header('refresh:3;url=index.php');
             } else {
-                die("password don't match");
-
                 $errorMessage = 'Mauvais mot de passe';
             }        
         } else {
-            die("no user");
-
             $errorMessage = 'Email incorrect!';
         }
     } else {
-        die("field error");
-
         $errorMessage = 'Veuillez remplir tous les champs..';
     }
         
@@ -66,6 +59,8 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
     <h1>Connection<h1>
+        <?php if (isset($errorMessage)) { ?> <p style="color: red;"><?= $errorMessage ?></p> <?php } ?>
+        <?php if (isset($succesMessage)) { ?> <p style="color: green;"><?= $succesMessage ?></p> <?php } ?>
 <form method="post" action="connection.php">   
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="password"required></br>
