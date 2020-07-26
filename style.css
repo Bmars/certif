@@ -16,7 +16,9 @@ header {
 #info {
 	text-align: center;
 }
-
+.button {
+	text-align: center;
+}
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 * {

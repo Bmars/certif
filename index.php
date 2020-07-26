@@ -11,8 +11,10 @@
 <body>
     <header>Bonjour bienvenue sur notre espace membre</header>
     <p>Veuillez choisir les options suivantes</p>
+    <div class="button">
     <button type="submit" class="btn btn-dark" name="submit"><a href="inscription.php">Inscription</a></button></br>
     <button type="submit" class="btn btn-dark" name="submit"><a href="connection.php">connection</a></button>
+    </div>
     <div>
         <input type="checkbox" class="checkbox" id="chk" />
         <label class="label" for="chk">
