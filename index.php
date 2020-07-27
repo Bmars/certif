@@ -1,3 +1,40 @@
+<?php
+
+session_start();
+
+require("src/pageconnection.php");
+
+ if (isset($_POST['submit'])) {
+ 
+    $oldPassword = $_POST['old_password'];
+    $newPassword = $_POST['password'];
+    $confirmNewPassword = $_POST['confirm_password'];
+ 
+    if ($_SESSION['userPassword'] == $oldPassword) {
+        if ($newPassword == $confirmNewPassword) {
+
+            $database = getPDO();
+            $request = $database->prepare("UPDATE login SET password = ? WHERE email = ?");
+            $request->execute([
+                $newPassword,
+                $_SESSION['email']
+            ]);
+            $succesMessage = 'Le mot de passe est maintenant modifié !';
+            header('refresh:3;url=index.php');
+ 
+        } else {
+            $errorMessage = 'Les mots de passes ne sont pas identiques!';
+        }
+    } else {
+        $errorMessage = 'Le mot de passe est incorrect..';
+    }
+ }
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +57,35 @@
     <a class="btn btn-primary" href="inscription.php" role="button">Inscription</a>
     <a class="btn btn-primary" href="connection.php" role="button">Connection</a>
 
+    <div class="form-div text-center">
+                <h3>Information</h3>
+                <?php if (isset($_SESSION['email'])) { ?>
+                        <p>Bonjour, <?= $_SESSION['pseudo'] ?> !</p>
+                        <p>Email : <?= $_SESSION['email'] ?></p>
+                        <p>Inscrit le <?= $_SESSION['registerDate'] ?></p>
+                        <a href="deconnection.php"> Se Déconnecter</a>
+                        <br>
+                        <h3>Changer de mot de passe</h3>
+                        <?php if (isset($errorMessage)) { ?> <p style="color: red;"><?= $errorMessage ?></p> <?php } ?>
+                        <?php if (isset($succesMessage)) { ?> <p style="color: green;"><?= $succesMessage ?></p> <?php } ?>
+                        <form method="post" action="">
+ 
+                            <span>Ancien Mot de passe :</span><br>
+                            <input type="password" name="old_password" placeholder="Ancien Mot de passe"><br>
+ 
+                            <span>Nouveau Mot de passe :</span><br>
+                            <input type="password" name="password" placeholder="Nouveau Mot de passe"><br><br>
+ 
+                            <span>Confirmation du Nouveau Mot de passe :</span><br>
+                            <input type="password" name="confirm_password" placeholder="Confirmation Mot de passe"><br><br>
+ 
+                            <input type="submit" name="submit" value="Valider">
+                        </form>
+                       
+                    <?php } else { ?>
+                    <p>Vous n'êtes pas connecté !</p>
+                <?php } ?>
+        </div>
     </div>
     <div>
         <input type="checkbox" class="checkbox" id="chk" />

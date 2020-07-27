@@ -1,7 +1,11 @@
 <?php
-// session_start();
+session_start();
 
 require("src/pageconnection.php");
+
+if (isset($_SESSION['email'])) {
+    header('Location:index.php');
+}
 
 if (isset($_POST['submit']))
 {
@@ -22,32 +26,53 @@ if (isset($_POST['submit']))
                     if ($password == $pass_confirm) 
                     {
                         // si les mdp sont ok, on hash le mdp
+
                         $hash = password_hash($password, PASSWORD_DEFAULT);
-                        $req = $db->prepare("SELECT * FROM login WHERE pseudo LIKE ? OR email LIKE ?");
+                        $database = getPDO();
+                        $req = $database->prepare("SELECT * FROM login WHERE pseudo LIKE ? OR email LIKE ?");
                         $req->execute(array($pseudo, $email));
                         $email_verification = $req->fetchAll(PDO::FETCH_ASSOC);
-                        foreach ($email_verification as $tableau) 
-                        {
-   
-                            if ($tableau["pseudo"] === $pseudo) 
-                            {
-                                if ($tableau["email"] === $email) 
-                                {
-                                $req = $db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
-                                $req->execute([
-                                    $pseudo,
-                                    $email,
-                                    $hash
-                                    ]);
-                                    $succesMessage = "Votre compte à bien été créé !";
-                                    header('refresh:3;url=connection.php');
-                                } else {
-                                    $errorMessage = 'Ce pseudo est déjà utilisée..';
-                                }
-                            } else {
-                                $errorMessage = 'Cet email est déjà utilisée..';
-                            }
+
+                        if(count($email_verification) > 0) {
+                            echo "pseudo ou mdp déjà utilisés";
+                        } else {
+                            $req = $database->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
+                            $req->execute([
+                                $pseudo,
+                                $email,
+                                $hash
+                                ]);
+                                $succesMessage = "Votre compte à bien été créé !";
+                                header('refresh:3;url=connection.php');
+
                         }
+
+
+
+
+
+                        // foreach ($email_verification as $tableau) 
+                        // { 
+   
+                        //     if ($tableau["pseudo"] === $pseudo) 
+                        //     {
+                        //         if ($tableau["email"] === $email) 
+                        //         {
+                        //         $req = $database->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
+                        //         $req->execute([
+                        //             $pseudo,
+                        //             $email,
+                        //             $hash
+                        //             ]);
+                        //             $succesMessage = "Votre compte à bien été créé !";
+                        //             header('refresh:3;url=connection.php');
+                        //         } else {
+                        //             $errorMessage = 'Ce pseudo est déjà utilisée..';
+                        //         }
+                        //     } else {
+                        //         $errorMessage = 'Cet email est déjà utilisée..';
+                        //     }
+                        // }
                     } else {
                         $errorMessage = 'Les mots de passes ne correspondent pas...';
                     }

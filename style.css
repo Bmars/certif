@@ -23,6 +23,18 @@ header {
 #para {
 	text-align: center;
 }
+.form-div {
+	background-color: gainsboro;
+	margin: 50px auto;
+	padding: 10px;
+	border-radius: 5px;
+	width: 300px;
+
+}
+
+.text-center {
+	text-align: center;
+}
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 * {
