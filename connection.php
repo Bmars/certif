@@ -2,9 +2,9 @@
 
 require('src/pageconnection.php');
 
-if(isset($_GET['success'])){
-    echo '<p id="success">Inscription prise correctement en compte.</p>';
-}
+// if(isset($_GET['success'])){
+//     echo '<p id="success">Inscription prise correctement en compte.</p>';
+// }
 
 if (isset($_POST['submit'])) {
  

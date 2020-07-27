@@ -2,44 +2,64 @@
 // session_start();
 
 require("src/pageconnection.php");
-$db = new PDO('mysql:host=localhost;dbname=crud;charset=UTF8', 'root', '');
 
-
+if (isset($_POST['submit']))
+{
 // on vérifie que les champs ne sont pas vides
-if (
-    !empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) &&
-    !empty($_POST['password_confirm'])
-) {
-
-    //on récupère les infos du form
-    $pseudo = htmlspecialchars($_POST['pseudo']);
-    $email = htmlspecialchars($_POST['email']);
-    $password = $_POST['password'];
-    $pass_confirm = $_POST['password_confirm'];
-    //test si le mdp est different de confirm le mdp
-    // si les mdp sont ok, on hash le mdp
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-    $req = $db->prepare("SELECT *FROM login WHERE pseudo=? OR email = ?");
-    $req->execute(array($pseudo, $email));
-    $email_verification = $req->fetchAll();
-
-
-    foreach ($email_verification as $tableau) {
-
-        if ($tableau["pseudo"] == $pseudo) {
-            echo "le nom existe deja";
-        }
-        if ($tableau["email"] == $email) {
-            echo "l'email' existe deja";
-        }
+    if (!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) &&
+        !empty($_POST['password_confirm']))
+        {
+        //on récupère les infos du form
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = $_POST['password'];
+        $pass_confirm = $_POST['password_confirm'];
+            if (strlen($pseudo) <= 16) 
+            {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
+                {
+                    //test si le mdp est different de confirm le mdp
+                    if ($password == $pass_confirm) 
+                    {
+                        // si les mdp sont ok, on hash le mdp
+                        $hash = password_hash($password, PASSWORD_DEFAULT);
+                        $req = $db->prepare("SELECT * FROM login WHERE pseudo LIKE ? OR email LIKE ?");
+                        $req->execute(array($pseudo, $email));
+                        $email_verification = $req->fetchAll(PDO::FETCH_ASSOC);
+                        foreach ($email_verification as $tableau) 
+                        {
+   
+                            if ($tableau["pseudo"] === $pseudo) 
+                            {
+                                if ($tableau["email"] === $email) 
+                                {
+                                $req = $db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
+                                $req->execute([
+                                    $pseudo,
+                                    $email,
+                                    $hash
+                                    ]);
+                                    $succesMessage = "Votre compte à bien été créé !";
+                                    header('refresh:3;url=connection.php');
+                                } else {
+                                    $errorMessage = 'Ce pseudo est déjà utilisée..';
+                                }
+                            } else {
+                                $errorMessage = 'Cet email est déjà utilisée..';
+                            }
+                        }
+                    } else {
+                        $errorMessage = 'Les mots de passes ne correspondent pas...';
+                    }
+                } else {
+                    $errorMessage = "Votre email n'est pas valide...";
+                }
+            } else {
+                $errorMessage = 'Le pseudo est trop long...';
+            }
+    } else {
+        $errorMessage = 'Veuillez remplir tous les champs...';
     }
-    $req = $db->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
-    $req->execute([
-        $pseudo,
-        $email,
-        $hash
-    ]);
-    header("location:connection.php?success=1");
 }
 
 
@@ -69,20 +89,8 @@ if (
         <h1>Inscription</h1>
     </header>
     <p id="info">Bienvenue sur mon site, pour en voir plus, inscrivez-vous. Sinon, <a href="connection.php">connectez-vous</a></p>
-    <?php
-
-
-    if (isset($_GET['pass'])) {
-        echo '<p id="error">Les mots de passe ne correspondent pas.</p>';
-    } else if (isset($_GET['email'])) {
-        echo '<p id="error">Cette adresse email est déjà utilisée.</p>';
-    }
-
-    //	else if(isset($_GET['success'])){
-    //		echo '<p id="success">Inscription prise correctement en compte.</p>';
-    //	}
-
-    ?>
+    <?php if (isset($errorMessage)) { ?> <p style="color: red; text-align: center;"><?= $errorMessage ?></p> <?php } ?>
+    <?php if (isset($succesMessage)) { ?> <p style="color: green; text-align: center;"><?= $succesMessage ?></p> <?php } ?>
     <div id="form">
         <form method="post" action="inscription.php">
             <input type="text" name="pseudo" placeholder="pseudo" required></br>
@@ -98,5 +106,4 @@ if (
 
 
 </body>
-
 </html>
