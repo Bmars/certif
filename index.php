@@ -9,11 +9,17 @@
     <title>accueil</title>
 </head>
 <body>
-    <header>Bonjour bienvenue sur notre espace membre</header>
-    <p>Veuillez choisir les options suivantes</p>
+    <header>
+        <h1>Bonjour bienvenue sur notre espace membre</h1>
+
+        </header>
+    <p id="para">Veuillez choisir les options suivantes</p>
     <div class="button">
-    <button type="submit" class="btn btn-dark" name="submit"><a href="inscription.php">Inscription</a></button></br>
-    <button type="submit" class="btn btn-dark" name="submit"><a href="connection.php">connection</a></button>
+    <!--<button type="submit" class="btn btn-dark" name="submit"><a href="inscription.php">Inscription</a></button></br>
+    <button type="submit" class="btn btn-dark" name="submit"><a href="connection.php">connection</a></button>-->
+    <a class="btn btn-primary" href="inscription.php" role="button">Inscription</a>
+    <a class="btn btn-primary" href="connection.php" role="button">Connection</a>
+
     </div>
     <div>
         <input type="checkbox" class="checkbox" id="chk" />
