@@ -59,10 +59,10 @@ require("src/pageconnection.php");
 
     <div class="form-div text-center">
                 <h3>Information</h3>
-                <?php if (isset($_SESSION['email'])) { ?>
-                        <p>Bonjour, <?= $_SESSION['pseudo'] ?> !</p>
-                        <p>Email : <?= $_SESSION['email'] ?></p>
-                        <p>Inscrit le <?= $_SESSION['registerDate'] ?></p>
+                <?php if (isset($_SESSION['userEmail'])) { ?>
+                        <p>Bonjour, <?= $_SESSION['userPseudo'] ?> !</p>
+                        <p>Email : <?= $_SESSION['userEmail'] ?></p>
+                        <p>Inscrit le <?= $_SESSION['userRegisterDate'] ?></p>
                         <a href="deconnection.php"> Se Déconnecter</a>
                         <br>
                         <h3>Changer de mot de passe</h3>
