@@ -29,14 +29,14 @@ if (isset($_POST['submit']))
 
                         $hash = password_hash($password, PASSWORD_DEFAULT);
                         $database = getPDO();
-                        $req = $database->prepare("SELECT * FROM login WHERE pseudo LIKE ? OR email LIKE ?");
+                        $req = $database->prepare("SELECT * FROM login WHERE :pseudo LIKE ? OR :email LIKE ?");
                         $req->execute(array($pseudo, $email));
                         $email_verification = $req->fetchAll(PDO::FETCH_ASSOC);
 
                         if(count($email_verification) > 0) {
                             echo "pseudo ou mdp déjà utilisés";
                         } else {
-                            $req = $database->prepare("INSERT INTO login(pseudo,email,password) VALUES(?,?,?)");
+                            $req = $database->prepare("INSERT INTO login(:pseudo,:email,:password) VALUES(?,?,?)");
                             $req->execute([
                                 $pseudo,
                                 $email,

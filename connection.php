@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
             
 
         $db = getPDO();
-        $requestUser = $db->prepare("SELECT * FROM login WHERE email = ?");
+        $requestUser = $db->prepare("SELECT * FROM login WHERE :email = ?");
         $requestUser->execute([$email]);
         $userCount = $requestUser->rowCount();
         if ($userCount == 1) {
