@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require('src/pageconnection.php');
 
 // if(isset($_GET['success'])){
