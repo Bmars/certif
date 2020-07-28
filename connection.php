@@ -57,9 +57,9 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
 </head>
 <body>
     <header>
@@ -67,11 +67,25 @@ if (isset($_POST['submit'])) {
 </header>
         <?php if (isset($errorMessage)) { ?> <p style="color: red;"><?= $errorMessage ?></p> <?php } ?>
         <?php if (isset($succesMessage)) { ?> <p style="color: green;"><?= $succesMessage ?></p> <?php } ?>
+<div id="form">
 <form method="post" action="connection.php">   
     <input type="email" name="email" placeholder="email"required></br>
     <input type="password" name="password" placeholder="password"required></br>
-    <p><label><input type="checkbox" name="connect">Connexion automatique</label></p>
-    <button name="submit">Connection</button>
-    
+   <!-- <p><label><input type="checkbox" name="connect">Connexion automatique</label></p>!-->
+    <!--<button name="submit">Connection</button> !-->
+    <button type="submit" class="btn btn-primary" name="submit">Connexion</button>
+
+</div>
+<div style="display: flex;">
+        <div style="display: inline-block; margin: 0 auto;">
+            <input type="checkbox" class="checkbox" id="chk" />
+            <label class="label" for="chk">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+                <div class="ball"></div>
+            </label>
+        </div>
+        <script src="main.js"></script>
+
 </body>
 </html>

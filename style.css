@@ -20,9 +20,7 @@ header {
 	text-align: center;
 }
 
-#para {
-	text-align: center;
-}
+
 .form-div {
 	background-color: gainsboro;
 	margin: 50px auto;
@@ -49,12 +47,19 @@ body {
 	height: 100vh;
 	margin: 0;
 	transition: background 0.2s linear;
+	text-align: center;
 }
 
 body.dark {
 	background: #292C35;
 }
 
+.dark #para {
+	color: gainsboro;
+}
+.dark #info {
+	color: gainsboro;
+}
 .checkbox {
 	opacity: 0;
 	position: static;
